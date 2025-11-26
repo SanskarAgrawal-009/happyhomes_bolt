@@ -86,7 +86,20 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-20 md:pt-32 md:pb-32 overflow-hidden">
+      <section className="relative pt-24 pb-20 md:pt-32 md:pb-32 overflow-hidden min-h-screen flex items-center">
+        {/* 3D Model Background */}
+        <div className="absolute inset-0 z-0 opacity-90 pointer-events-none">
+          <iframe
+
+
+            allowFullScreen
+            className="w-full h-full object-cover"
+            allow="autoplay; fullscreen; xr-spatial-tracking"
+            src="https://sketchfab.com/models/11b0545ea4984063b4da289168365b09/embed?ui_theme=dark&autostart=1&preload=1&transparent=1&ui_controls=0&ui_infos=0&ui_watermark=0"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/50 to-white/90"></div>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <motion.div
             initial="hidden"
@@ -97,7 +110,7 @@ export default function Landing() {
               Your Dream Home, <br />
               <span className="italic text-gray-600">Designed with Ease</span>
             </motion.h1>
-            <motion.p variants={fadeInUp} className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed font-light max-w-3xl mx-auto">
+            <motion.p variants={fadeInUp} className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed font-light max-w-3xl mx-auto bg-white/30 backdrop-blur-sm p-4 rounded-xl">
               Connect with verified interior designers and skilled freelancers to bring your vision to life, securely and efficiently.
             </motion.p>
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row justify-center gap-4">
@@ -107,7 +120,7 @@ export default function Landing() {
                 </Button>
               </Link>
               <Link to="/how-it-works">
-                <Button size="md" variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-black text-lg w-full sm:w-48">
+                <Button size="md" variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-black text-lg w-full sm:w-48 bg-white/80 backdrop-blur-sm">
                   Learn More
                 </Button>
               </Link>
