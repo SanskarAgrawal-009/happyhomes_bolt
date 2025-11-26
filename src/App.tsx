@@ -28,11 +28,14 @@ import MyApplications from './pages/Dashboard/Freelancer/MyApplications';
 
 import AuthInitializer from './components/AuthInitializer';
 
+import ScrollToTop from './components/ScrollToTop';
+
 function App() {
   return (
     <Provider store={store}>
       <AuthInitializer />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Landing />} />
