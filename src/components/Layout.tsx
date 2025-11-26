@@ -1,27 +1,30 @@
-import { Outlet } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { Outlet, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import type { RootState } from '../store';
-import { clearUser } from '../store/slices/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { RootState } from '../store';
+import { useAuth } from '../hooks/useAuth';
+import PageTransition from './PageTransition';
 
 export default function Layout() {
   const { isAuthenticated } = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { signOut } = useAuth();
+  const location = useLocation();
 
-  const handleSignOut = () => {
-    dispatch(clearUser());
-    localStorage.removeItem('userRole');
-    navigate('/');
+  const handleSignOut = async () => {
+    await signOut();
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar isAuthenticated={isAuthenticated} onSignOut={handleSignOut} />
-      <main className="flex-1">
-        <Outlet />
+      <main className="flex-grow">
+        <AnimatePresence mode="wait">
+          <PageTransition key={location.pathname}>
+            <Outlet />
+          </PageTransition>
+        </AnimatePresence>
       </main>
       <Footer />
     </div>

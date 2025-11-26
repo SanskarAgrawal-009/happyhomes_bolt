@@ -19,12 +19,14 @@ interface UserState {
   role: UserRole;
   isAuthenticated: boolean;
   profile: UserProfile | null;
+  isLoading: boolean;
 }
 
 const initialState: UserState = {
   role: null,
   isAuthenticated: false,
   profile: null,
+  isLoading: true,
 };
 
 const userSlice = createSlice({
@@ -41,19 +43,24 @@ const userSlice = createSlice({
       state.profile = action.payload;
       state.role = action.payload.role;
       state.isAuthenticated = true;
+      state.isLoading = false;
     },
     updateUserProfile: (state, action: PayloadAction<Partial<UserProfile>>) => {
       if (state.profile) {
         state.profile = { ...state.profile, ...action.payload };
       }
     },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
     clearUser: (state) => {
       state.role = null;
       state.isAuthenticated = false;
       state.profile = null;
+      state.isLoading = false;
     },
   },
 });
 
-export const { setUserRole, setAuthenticated, setUserProfile, updateUserProfile, clearUser } = userSlice.actions;
+export const { setUserRole, setAuthenticated, setUserProfile, updateUserProfile, setLoading, clearUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,5 +1,6 @@
-import { Link, useNavigate, Outlet } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { AnimatePresence } from 'framer-motion';
 import {
   Home,
   LayoutDashboard,
@@ -12,17 +13,16 @@ import {
   LogOut,
 } from 'lucide-react';
 import type { RootState } from '../store';
-import { clearUser } from '../store/slices/userSlice';
+import { useAuth } from '../hooks/useAuth';
+import PageTransition from './PageTransition';
 
 export default function DashboardLayout() {
   const { role } = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { signOut } = useAuth();
+  const location = useLocation();
 
-  const handleSignOut = () => {
-    dispatch(clearUser());
-    localStorage.removeItem('userRole');
-    navigate('/');
+  const handleSignOut = async () => {
+    await signOut();
   };
 
   const homeownerLinks = [
@@ -101,7 +101,11 @@ export default function DashboardLayout() {
           </aside>
 
           <main className="flex-1">
-            <Outlet />
+            <AnimatePresence mode="wait">
+              <PageTransition key={location.pathname}>
+                <Outlet />
+              </PageTransition>
+            </AnimatePresence>
           </main>
         </div>
       </div>

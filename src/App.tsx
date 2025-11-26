@@ -26,9 +26,12 @@ import MyProposals from './pages/Dashboard/Designer/MyProposals';
 import BrowseJobs from './pages/Dashboard/Freelancer/BrowseJobs';
 import MyApplications from './pages/Dashboard/Freelancer/MyApplications';
 
+import AuthInitializer from './components/AuthInitializer';
+
 function App() {
   return (
     <Provider store={store}>
+      <AuthInitializer />
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
