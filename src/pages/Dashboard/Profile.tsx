@@ -1,23 +1,133 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { User, Mail, MapPin, Phone, Save } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import TextArea from '../../components/ui/TextArea';
 import Card from '../../components/ui/Card';
 import type { RootState } from '../../store';
+import { supabase } from '../../lib/supabase';
+import { updateUserProfile } from '../../store/slices/userSlice';
+import { uploadAvatar } from '../../lib/storage';
 
 export default function Profile() {
-  const { role } = useSelector((state: RootState) => state.user);
-  const [name, setName] = useState('John Doe');
-  const [email, setEmail] = useState('john.doe@example.com');
-  const [phone, setPhone] = useState('+91 98765 43210');
-  const [location, setLocation] = useState('Mumbai, India');
-  const [bio, setBio] = useState('Passionate about creating beautiful spaces.');
+  const dispatch = useDispatch();
+  const { profile, role } = useSelector((state: RootState) => state.user);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [location, setLocation] = useState('');
+  const [bio, setBio] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [message, setMessage] = useState('');
+
+  // Load profile data when component mounts or profile changes
+  useEffect(() => {
+    if (profile) {
+      setName(profile.full_name || '');
+      setEmail(profile.email || '');
+      setPhone(profile.phone || '');
+      setLocation(profile.location || '');
+      setBio(profile.bio || '');
+      setAvatarUrl(profile.avatar_url || '');
+    }
+  }, [profile]);
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !profile) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setMessage('Please select an image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage('Image size should be less than 5MB');
+      return;
+    }
+
+    setUploadingAvatar(true);
+    setMessage('');
+
+    try {
+      // Upload to Supabase Storage
+      const publicUrl = await uploadAvatar(profile.id, file);
+
+      // Update profile in database
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          avatar_url: publicUrl,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', profile.id);
+
+      if (error) throw error;
+
+      // Update local state and Redux
+      setAvatarUrl(publicUrl);
+      dispatch(updateUserProfile({ avatar_url: publicUrl }));
+
+      setMessage('Profile photo updated successfully!');
+      setTimeout(() => setMessage(''), 3000);
+    } catch (error: any) {
+      console.error('Error uploading avatar:', error);
+      setMessage('Failed to upload photo: ' + error.message);
+    } finally {
+      setUploadingAvatar(false);
+    }
+  };
+
+  const handleChangePhotoClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Profile updated successfully!');
+    setLoading(true);
+    setMessage('');
+
+    try {
+      if (!profile) {
+        throw new Error('No profile found');
+      }
+
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          full_name: name,
+          phone,
+          location,
+          bio,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', profile.id);
+
+      if (error) throw error;
+
+      // Update Redux store
+      dispatch(updateUserProfile({
+        full_name: name,
+        phone,
+        location,
+        bio,
+      }));
+
+      setMessage('Profile updated successfully!');
+      setTimeout(() => setMessage(''), 3000);
+    } catch (error: any) {
+      console.error('Error updating profile:', error);
+      setMessage('Failed to update profile: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -30,11 +140,32 @@ export default function Profile() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <Card className="p-6 lg:col-span-1 h-fit">
           <div className="text-center">
-            <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-              <User className="w-16 h-16 text-gray-400" />
+            <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4 overflow-hidden">
+              {avatarUrl ? (
+                <img
+                  src={avatarUrl}
+                  alt={name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <User className="w-16 h-16 text-gray-400" />
+              )}
             </div>
-            <Button variant="outline" size="sm" className="w-full mb-4">
-              Change Photo
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
+              className="hidden"
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mb-4"
+              onClick={handleChangePhotoClick}
+              disabled={uploadingAvatar}
+            >
+              {uploadingAvatar ? 'Uploading...' : 'Change Photo'}
             </Button>
             <h2 className="text-xl font-bold text-gray-900 mb-1">{name}</h2>
             <p className="text-sm text-gray-600 mb-4 capitalize">{role}</p>
@@ -58,6 +189,15 @@ export default function Profile() {
         <Card className="p-6 lg:col-span-2">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Edit Profile</h2>
           <form onSubmit={handleSubmit} className="space-y-6">
+            {message && (
+              <div className={`px - 4 py - 3 rounded - lg ${message.includes('success')
+                ? 'bg-green-50 border border-green-200 text-green-700'
+                : 'bg-red-50 border border-red-200 text-red-700'
+                } `}>
+                {message}
+              </div>
+            )}
+
             <Input
               label="Full Name"
               value={name}
@@ -69,7 +209,7 @@ export default function Profile() {
               type="email"
               label="Email Address"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              disabled
               required
             />
 
@@ -118,9 +258,9 @@ export default function Profile() {
             )}
 
             <div className="flex gap-4 pt-4">
-              <Button type="submit" variant="primary">
+              <Button type="submit" variant="primary" disabled={loading}>
                 <Save className="w-5 h-5 mr-2" />
-                Save Changes
+                {loading ? 'Saving...' : 'Save Changes'}
               </Button>
               <Button type="button" variant="outline">
                 Cancel

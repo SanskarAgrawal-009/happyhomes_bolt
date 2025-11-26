@@ -61,13 +61,13 @@ export default function Contact() {
               const Icon = info.icon;
               return (
                 <Card key={index} className="p-6 text-center">
-                  <div className="w-14 h-14 bg-[#BE3144] text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-14 h-14 bg-pastel-purple text-white rounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon className="w-7 h-7" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">{info.title}</h3>
                   <a
                     href={info.link}
-                    className="text-gray-600 hover:text-[#BE3144] transition-colors"
+                    className="text-gray-600 hover:text-pastel-purple transition-colors"
                   >
                     {info.content}
                   </a>

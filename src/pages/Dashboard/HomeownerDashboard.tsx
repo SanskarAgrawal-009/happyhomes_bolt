@@ -37,8 +37,8 @@ export default function HomeownerDashboard() {
               <p className="text-gray-600 text-sm font-medium">Active Projects</p>
               <p className="text-3xl font-bold text-gray-900 mt-1">2</p>
             </div>
-            <div className="w-12 h-12 bg-[#BE3144] bg-opacity-10 rounded-full flex items-center justify-center">
-              <FileText className="w-6 h-6 text-[#BE3144]" />
+            <div className="w-12 h-12 bg-pastel-purple bg-opacity-10 rounded-full flex items-center justify-center">
+              <FileText className="w-6 h-6 text-pastel-purple" />
             </div>
           </div>
         </Card>
@@ -49,8 +49,8 @@ export default function HomeownerDashboard() {
               <p className="text-gray-600 text-sm font-medium">Total Proposals</p>
               <p className="text-3xl font-bold text-gray-900 mt-1">16</p>
             </div>
-            <div className="w-12 h-12 bg-[#BE3144] bg-opacity-10 rounded-full flex items-center justify-center">
-              <FileText className="w-6 h-6 text-[#BE3144]" />
+            <div className="w-12 h-12 bg-pastel-purple bg-opacity-10 rounded-full flex items-center justify-center">
+              <FileText className="w-6 h-6 text-pastel-purple" />
             </div>
           </div>
         </Card>
@@ -61,8 +61,8 @@ export default function HomeownerDashboard() {
               <p className="text-gray-600 text-sm font-medium">Messages</p>
               <p className="text-3xl font-bold text-gray-900 mt-1">8</p>
             </div>
-            <div className="w-12 h-12 bg-[#BE3144] bg-opacity-10 rounded-full flex items-center justify-center">
-              <MessageSquare className="w-6 h-6 text-[#BE3144]" />
+            <div className="w-12 h-12 bg-pastel-purple bg-opacity-10 rounded-full flex items-center justify-center">
+              <MessageSquare className="w-6 h-6 text-pastel-purple" />
             </div>
           </div>
         </Card>
@@ -72,7 +72,7 @@ export default function HomeownerDashboard() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-gray-900">My Projects</h2>
-            <Link to="/dashboard/projects" className="text-[#BE3144] hover:underline font-medium">
+            <Link to="/dashboard/projects" className="text-pastel-purple hover:underline font-medium">
               View All
             </Link>
           </div>
@@ -92,7 +92,7 @@ export default function HomeownerDashboard() {
                 <p className="text-gray-600 text-sm mb-3 line-clamp-2">{project.description}</p>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-500">Budget: {project.budget}</span>
-                  <span className="text-[#BE3144] font-semibold">{project.proposals} proposals</span>
+                  <span className="text-pastel-purple font-semibold">{project.proposals} proposals</span>
                 </div>
               </Card>
             ))}
@@ -102,7 +102,7 @@ export default function HomeownerDashboard() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-gray-900">Browse Designers</h2>
-            <Link to="/dashboard/designers" className="text-[#BE3144] hover:underline font-medium">
+            <Link to="/dashboard/designers" className="text-pastel-purple hover:underline font-medium">
               View All
             </Link>
           </div>
@@ -113,7 +113,7 @@ export default function HomeownerDashboard() {
               <input
                 type="text"
                 placeholder="Search designers..."
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#BE3144] focus:border-transparent outline-none"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pastel-purple focus:border-transparent outline-none"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />

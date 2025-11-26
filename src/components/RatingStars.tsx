@@ -26,7 +26,7 @@ export default function RatingStars({ rating, maxRating = 5, size = 16, showNumb
             >
               <Star
                 size={size}
-                className="text-yellow-400"
+                className="text-gray-800"
                 fill="currentColor"
               />
             </div>

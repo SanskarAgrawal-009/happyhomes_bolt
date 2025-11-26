@@ -15,7 +15,7 @@ export default function Select({ label, error, options, className = '', ...props
         </label>
       )}
       <select
-        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#BE3144] focus:border-transparent outline-none transition-all bg-white ${
+        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pastel-purple focus:border-transparent outline-none transition-all bg-white ${
           error ? 'border-red-500' : ''
         } ${className}`}
         {...props}

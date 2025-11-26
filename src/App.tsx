@@ -14,6 +14,17 @@ import Profile from './pages/Dashboard/Profile';
 import Portfolio from './pages/Dashboard/Portfolio';
 import PostProject from './pages/Dashboard/PostProject';
 import Chat from './pages/Dashboard/Chat';
+// Homeowner pages
+import PostRequirement from './pages/Dashboard/Homeowner/PostRequirement';
+import BrowseDesigners from './pages/Dashboard/Homeowner/BrowseDesigners';
+import MyRequirements from './pages/Dashboard/Homeowner/MyRequirements';
+import DesignerProfile from './pages/Dashboard/Homeowner/DesignerProfile';
+// Designer pages
+import BrowseRequirements from './pages/Dashboard/Designer/BrowseRequirements';
+import MyProposals from './pages/Dashboard/Designer/MyProposals';
+// Freelancer pages
+import BrowseJobs from './pages/Dashboard/Freelancer/BrowseJobs';
+import MyApplications from './pages/Dashboard/Freelancer/MyApplications';
 
 function App() {
   return (
@@ -41,6 +52,18 @@ function App() {
             <Route path="portfolio" element={<Portfolio />} />
             <Route path="post-project" element={<PostProject />} />
             <Route path="chat" element={<Chat />} />
+            {/* Homeowner Routes */}
+            <Route path="post-requirement" element={<PostRequirement />} />
+            <Route path="browse-designers" element={<BrowseDesigners />} />
+            <Route path="my-requirements" element={<MyRequirements />} />
+            <Route path="designer/:designerId" element={<DesignerProfile />} />
+            {/* Designer Routes */}
+            <Route path="browse-requirements" element={<BrowseRequirements />} />
+            <Route path="my-proposals" element={<MyProposals />} />
+            {/* Freelancer Routes */}
+            <Route path="browse-jobs" element={<BrowseJobs />} />
+            <Route path="my-applications" element={<MyApplications />} />
+            {/* Legacy routes */}
             <Route path="projects" element={<Dashboard />} />
             <Route path="designers" element={<Dashboard />} />
             <Route path="freelancers" element={<Dashboard />} />

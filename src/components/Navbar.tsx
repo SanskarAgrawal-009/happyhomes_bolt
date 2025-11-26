@@ -20,28 +20,32 @@ export default function Navbar({ isAuthenticated = false, onSignOut }: NavbarPro
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-40">
+    <nav className="bg-luxury-white border-b border-gray-200 sticky top-0 z-40 backdrop-blur-sm bg-opacity-95">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center gap-2">
-            <Home className="w-8 h-8 text-[#BE3144]" />
-            <span className="text-2xl font-bold text-gray-900">Happy Homes</span>
+        <div className="flex justify-between items-center h-20">
+          <Link to="/" className="flex items-center gap-3 group">
+            <Home className="w-8 h-8 text-gray-800 group-hover:scale-110 transition-transform duration-300" />
+            <span className="text-2xl font-serif font-bold text-gray-800 tracking-tight">Happy Homes</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <Link to="/" className="text-gray-700 hover:text-[#BE3144] transition-colors font-medium">
+            <Link to="/" className="text-gray-800 hover:text-gray-800 transition-colors font-medium tracking-wide relative group">
               Home
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-luxury-white group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link to="/about" className="text-gray-700 hover:text-[#BE3144] transition-colors font-medium">
+            <Link to="/about" className="text-gray-800 hover:text-gray-800 transition-colors font-medium tracking-wide relative group">
               About
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-luxury-white group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-[#BE3144] transition-colors font-medium">
+            <Link to="/contact" className="text-gray-800 hover:text-gray-800 transition-colors font-medium tracking-wide relative group">
               Contact
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-luxury-white group-hover:w-full transition-all duration-300"></span>
             </Link>
             {isAuthenticated ? (
               <>
-                <Link to="/dashboard" className="text-gray-700 hover:text-[#BE3144] transition-colors font-medium">
+                <Link to="/dashboard" className="text-gray-800 hover:text-gray-800 transition-colors font-medium tracking-wide relative group">
                   Dashboard
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-luxury-white group-hover:w-full transition-all duration-300"></span>
                 </Link>
                 <Button variant="outline" size="sm" onClick={handleSignOut}>
                   Sign Out
@@ -64,34 +68,34 @@ export default function Navbar({ isAuthenticated = false, onSignOut }: NavbarPro
           </div>
 
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 text-gray-800 hover:text-gray-800 transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200">
-          <div className="px-4 py-4 space-y-3">
+        <div className="md:hidden bg-luxury-white border-t border-gray-200">
+          <div className="px-4 py-6 space-y-4">
             <Link
               to="/"
-              className="block py-2 text-gray-700 hover:text-[#BE3144] transition-colors font-medium"
+              className="block py-3 text-gray-800 hover:text-gray-800 transition-colors font-medium tracking-wide"
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link
               to="/about"
-              className="block py-2 text-gray-700 hover:text-[#BE3144] transition-colors font-medium"
+              className="block py-3 text-gray-800 hover:text-gray-800 transition-colors font-medium tracking-wide"
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
             <Link
               to="/contact"
-              className="block py-2 text-gray-700 hover:text-[#BE3144] transition-colors font-medium"
+              className="block py-3 text-gray-800 hover:text-gray-800 transition-colors font-medium tracking-wide"
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact
@@ -100,7 +104,7 @@ export default function Navbar({ isAuthenticated = false, onSignOut }: NavbarPro
               <>
                 <Link
                   to="/dashboard"
-                  className="block py-2 text-gray-700 hover:text-[#BE3144] transition-colors font-medium"
+                  className="block py-3 text-gray-800 hover:text-gray-800 transition-colors font-medium tracking-wide"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Dashboard

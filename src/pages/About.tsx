@@ -50,7 +50,7 @@ export default function About() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold text-[#BE3144] mb-2">
+                <div className="text-4xl md:text-5xl font-bold text-pastel-purple mb-2">
                   {stat.number}
                 </div>
                 <div className="text-gray-600 font-medium">{stat.label}</div>
@@ -63,7 +63,7 @@ export default function About() {
               const Icon = value.icon;
               return (
                 <Card key={index} className="p-8">
-                  <div className="w-14 h-14 bg-[#BE3144] text-white rounded-full flex items-center justify-center mb-4">
+                  <div className="w-14 h-14 bg-pastel-purple text-white rounded-full flex items-center justify-center mb-4">
                     <Icon className="w-7 h-7" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-3">{value.title}</h3>

@@ -3,24 +3,40 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Home } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import { useDispatch } from 'react-redux';
-import { setUserRole, setAuthenticated } from '../store/slices/userSlice';
-import type { UserRole } from '../store/slices/userSlice';
+import { useAuth } from '../hooks/useAuth';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { signIn } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
 
-    const role = localStorage.getItem('userRole') as UserRole || 'homeowner';
-    dispatch(setUserRole(role));
-    dispatch(setAuthenticated(true));
+    try {
+      // Race between sign in and a 10s timeout
+      const result = await Promise.race([
+        signIn(email, password),
+        new Promise<{ success: boolean; error: string }>((resolve) =>
+          setTimeout(() => resolve({ success: false, error: 'Request timed out. Please try again.' }), 10000)
+        )
+      ]);
 
-    navigate('/dashboard');
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setError(result.error || 'Failed to sign in');
+        setLoading(false);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+      setLoading(false);
+    }
   };
 
   return (
@@ -28,7 +44,7 @@ export default function SignIn() {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-6">
-            <Home className="w-10 h-10 text-[#BE3144]" />
+            <Home className="w-10 h-10 text-pastel-purple" />
             <span className="text-3xl font-bold text-gray-900">Happy Homes</span>
           </Link>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
@@ -37,6 +53,12 @@ export default function SignIn() {
 
         <div className="bg-white rounded-xl shadow-lg p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                {error}
+              </div>
+            )}
+
             <Input
               type="email"
               label="Email Address"
@@ -57,23 +79,23 @@ export default function SignIn() {
 
             <div className="flex items-center justify-between">
               <label className="flex items-center">
-                <input type="checkbox" className="w-4 h-4 text-[#BE3144] border-gray-300 rounded focus:ring-[#BE3144]" />
+                <input type="checkbox" className="w-4 h-4 text-pastel-purple border-gray-300 rounded focus:ring-pastel-purple" />
                 <span className="ml-2 text-sm text-gray-600">Remember me</span>
               </label>
-              <a href="#" className="text-sm text-[#BE3144] hover:underline">
+              <a href="#" className="text-sm text-pastel-purple hover:underline">
                 Forgot password?
               </a>
             </div>
 
-            <Button type="submit" variant="primary" className="w-full">
-              Sign In
+            <Button type="submit" variant="primary" className="w-full" disabled={loading}>
+              {loading ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
               Don't have an account?{' '}
-              <Link to="/signup" className="text-[#BE3144] font-semibold hover:underline">
+              <Link to="/signup" className="text-pastel-purple font-semibold hover:underline">
                 Sign up
               </Link>
             </p>

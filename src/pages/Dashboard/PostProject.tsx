@@ -41,8 +41,8 @@ export default function PostProject() {
       <Card className="p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex items-center gap-3 pb-6 border-b border-gray-200">
-            <div className="w-12 h-12 bg-[#BE3144] bg-opacity-10 rounded-full flex items-center justify-center">
-              <FileText className="w-6 h-6 text-[#BE3144]" />
+            <div className="w-12 h-12 bg-pastel-purple bg-opacity-10 rounded-full flex items-center justify-center">
+              <FileText className="w-6 h-6 text-pastel-purple" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-900">Project Details</h2>
@@ -97,19 +97,19 @@ export default function PostProject() {
             <h3 className="font-semibold text-gray-900 mb-2">What happens next?</h3>
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-start gap-2">
-                <span className="text-[#BE3144] font-bold">1.</span>
+                <span className="text-pastel-purple font-bold">1.</span>
                 <span>Your project will be visible to verified designers</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#BE3144] font-bold">2.</span>
+                <span className="text-pastel-purple font-bold">2.</span>
                 <span>Designers will submit proposals with their ideas and quotes</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#BE3144] font-bold">3.</span>
+                <span className="text-pastel-purple font-bold">3.</span>
                 <span>Review proposals and select the best designer for your project</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#BE3144] font-bold">4.</span>
+                <span className="text-pastel-purple font-bold">4.</span>
                 <span>Collaborate and bring your vision to life</span>
               </li>
             </ul>
