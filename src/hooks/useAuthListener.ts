@@ -71,11 +71,44 @@ export function useAuthListener() {
             const { data, error } = await Promise.race([fetchPromise, timeoutPromise]) as any;
 
             if (error) {
-                console.error('Profile fetch error:', error);
-                throw error;
-            }
+                // If profile doesn't exist (Google OAuth user), create one
+                if (error.code === 'PGRST116') {
+                    console.log('Profile not found, creating new profile for Google OAuth user');
 
-            if (data) {
+                    // Get user data from auth
+                    const { data: { user } } = await supabase.auth.getUser();
+
+                    if (user) {
+                        const newProfile = {
+                            id: user.id,
+                            full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
+                            email: user.email || '',
+                            role: 'homeowner' as UserRole, // Default role for Google OAuth users
+                        };
+
+                        const { data: createdProfile, error: createError } = await supabase
+                            .from('profiles')
+                            .insert(newProfile)
+                            .select()
+                            .single();
+
+                        if (createError) {
+                            console.error('Error creating profile:', createError);
+                            throw createError;
+                        }
+
+                        if (createdProfile) {
+                            console.log('Profile created successfully:', createdProfile.email, 'Role:', createdProfile.role);
+                            dispatch(setUserRole(createdProfile.role as UserRole));
+                            dispatch(setAuthenticated(true));
+                            dispatch(setUserProfile(createdProfile));
+                        }
+                    }
+                } else {
+                    console.error('Profile fetch error:', error);
+                    throw error;
+                }
+            } else if (data) {
                 console.log('Profile fetched successfully:', data.email, 'Role:', data.role);
                 dispatch(setUserRole(data.role as UserRole));
                 dispatch(setAuthenticated(true));
