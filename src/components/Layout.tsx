@@ -19,7 +19,7 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar isAuthenticated={isAuthenticated} onSignOut={handleSignOut} />
-      <main className="flex-grow">
+      <main className="flex-grow pt-16">
         <AnimatePresence mode="wait">
           <PageTransition key={location.pathname}>
             <Outlet />

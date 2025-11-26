@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Users, CreditCard, LineChart, CheckCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import Button from '../components/ui/Button';
 import RatingStars from '../components/RatingStars';
 
@@ -68,20 +68,19 @@ export default function Landing() {
   ];
 
   // Animation variants
-  const stagger = {
+  const stagger: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.1,
       },
     },
   };
 
-  const fadeInUp = {
+  const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
   };
 
   return (
@@ -254,7 +253,7 @@ export default function Landing() {
 
             <motion.div variants={fadeInUp}>
               <Link to="/signup">
-                <Button variant = "ghost" size="lg" className="bg-white text-gray-800 hover:bg-gray-800 hover:text-white border-none shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 font-semibold">
+                <Button variant="ghost" size="lg" className="bg-white text-gray-800 hover:bg-gray-800 hover:text-white border-none shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 font-semibold">
                   Get Started Now
                 </Button>
               </Link>

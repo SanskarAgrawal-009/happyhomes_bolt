@@ -100,7 +100,7 @@ export default function DashboardLayout() {
             </div>
           </aside>
 
-          <main className="flex-1">
+          <main className="flex-1 overflow-y-auto p-8">
             <AnimatePresence mode="wait">
               <PageTransition key={location.pathname}>
                 <Outlet />
