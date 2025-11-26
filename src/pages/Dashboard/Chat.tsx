@@ -386,7 +386,7 @@ export default function Chat() {
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[calc(600px-140px)]">
                   {messages.map((message) => {
                     const isOwn = message.sender_id === profile?.id;
                     return (
